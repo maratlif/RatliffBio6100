@@ -1,0 +1,15 @@
+---
+title: "Computational Biology"
+author: "Molly Ratliff"
+date: "Spring 2024"
+output: 
+  html_document: 
+    theme: cerulean
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### *Homework Assigments*
+[Homework 2](Homework_02.html)
