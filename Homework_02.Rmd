@@ -9,3 +9,4 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+This is a test making sure my GitHub repository and GitHub website both work. Test was successful!
