@@ -4,12 +4,14 @@ author: "Molly Ratliff"
 date: "Spring 2024"
 output: 
   html_document: 
-    theme: cerulean
+    theme: yeti
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### *Homework Assigments*
-[Homework 2](Homework_02.html)
+## *Homework Assignments*
+* #### [Homework 2](Homework_02.html)
+
+* #### [Homework 3](Homework_03.html)

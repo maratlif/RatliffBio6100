@@ -2,7 +2,9 @@
 title: "Homework_02"
 author: "Molly Ratliff"
 date: "2024-01-24"
-output: html_document
+output: 
+  html_document: 
+    theme: yeti
 ---
 
 ```{r setup, include=FALSE}

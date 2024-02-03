@@ -11,9 +11,9 @@
 
 <meta name="author" content="Molly Ratliff" />
 
-<meta name="date" content="2024-01-24" />
+<meta name="date" content="2024-01-31" />
 
-<title>Homework_02</title>
+<title>Homework_03</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -387,15 +387,71 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Homework_02</h1>
+<h1 class="title toc-ignore">Homework_03</h1>
 <h4 class="author">Molly Ratliff</h4>
-<h4 class="date">2024-01-24</h4>
+<h4 class="date">2024-01-31</h4>
 
 </div>
 
 
-<p>This is a test making sure my GitHub repository and GitHub website
-both work. Test was successful!</p>
+<p><strong>1. Transform aligned columns to the proper format for a .csv
+file.</strong></p>
+<pre><code>FIND:\s{2,11} 
+REPLACE:,</code></pre>
+<p>The find command searches for any spaces between two to eleven units
+long. It maintains single spaces between words in the same column, while
+getting rid of extra spaces between columns. These spaces are replaced
+with a comma.</p>
+<p><strong>2. Format names without commas and put institution in
+parentheses</strong></p>
+<pre><code>FIND:(\w*),\s(\w*),\s(.*)
+REPLACE:\2 \1 (\3)</code></pre>
+<p>The find command captures the first one or more word characters
+followed by a comma and space. It then captures the second one or more
+word characters followed by a comma and space. The remaining characters
+are captured as the third unit. The first and second captures are
+switched and the third capture is put in parentheses.</p>
+<p><strong>3. Place each fiddle tune and corresponding four digit number
+on its own line</strong></p>
+<pre><code>FIND:(\w+\s\w+\s\w+\.mp3\s)
+REPLACE:\1\n</code></pre>
+<p>The find command captures a word character followed by a space
+followed by a word character followed by a space followed by a word
+character then the text .mp3 followed by a space. A new line return is
+made after each capture.</p>
+<p><strong>4. Write an expression to move the four digit number to the
+end of the song title</strong></p>
+<pre><code>FIND:(\w+)\s(.*)(\.mp3)
+REPLACE:\2_\1\3</code></pre>
+<p>This find command breaks each line into one capture with the number,
+one capture with the song title, and one capture with the file
+extension. Then, the captures are rearranged so the song title is first,
+followed by the number with an underscore and the file extension.</p>
+<p><strong>5. Write an expression to rearrange genus, species, and two
+numeric variables.</strong></p>
+<pre><code>FIND:(\w)(\w+),(\w+),(\d+\.\d+),(\d+)
+REPLACE:\1_\3,\5</code></pre>
+<p>This find command breaks the first letter of the genus, remainder of
+the genus, species, first set of digits, and second set of digits into
+separate captures. The output is the first letter of the genus, the
+species, and the last number.</p>
+<p><strong>6. Using the original data set from question 5, write the
+abbreviated version of the species names</strong></p>
+<pre><code>FIND:(\w)\w+,(\w)(\w)(\w)(\w)\w+,\d+\.\d+,(\d+)
+REPLACE:\1_\2\3\4\5,\6</code></pre>
+<p>This find commands captures the first letter of the genus and first
+four letters of the species. The last capture is the final number in
+each row. The output is each of these captured units separated by an
+underscore and comma.</p>
+<p><strong>7. Using the original data set from question 5, fuse the
+species and genus name, followed by two columns of the numeric
+data</strong></p>
+<pre><code>FIND:(\w)(\w)(\w)\w+,(\w)(\w)(\w)\w+,(\d+\.\d+),(\d+)
+REPLACE:\1\2\3\4\5\6, \8, \7</code></pre>
+<p>This find command captures the first three characters from the genus
+and species and the two numbers individually. The output combines the
+first three letters of genus and species, then arranges the two numbers
+into two columns</p>
 
 
 
