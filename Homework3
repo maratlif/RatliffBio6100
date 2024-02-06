@@ -1,30 +1,22 @@
-(\w)(\w+),(\w+),(\d+\.\d+),(\d+)
-(\w)\w+,(\w)(\w)(\w)(\w)(\w+),(\d+\.\d+),(\d+)
+(\w)\w+,(\w)(\w)(\w)(\w)\w+,\d+\.\d+,(\d+)
+(\w)(\w)(\w)\w+,(\w)(\w)(\w)\w+,(\d+\.\d+),(\d+)
 
-Campen, 44, 10.2
-Camher, 3, 10.5
-Myrpun, 4, 12.2
-Lasneo, 55, 3.3
-
-Campen, 44. 10.2
-Camher, 3. 10.5
-Myrpun, 4. 12.2
-Lasneo, 55. 3.3
-
-Campen, 44, 10.2
-Camher, 3, 10.5
-Myrpun, 4, 12.2
-Lasneo, 55, 3.3
-
-C_penn,44
-C_herc,3
-M_punc,
-L_neon,
+6. (\w{4})
 
 C_penn,44
 C_herc,3
 M_punc,4
 L_neon,55
+
+Campen, 44, 10.2
+Camher, 3, 10.5
+Myrpun, 4, 12.2
+Lasneo, 55, 3.3
+
+Campen, 44, 10.2
+Camher, 3, 10.5
+Myrpun, 4, 12.2
+Lasneo, 55, 3.3
 
 C_penn,44
 C_herc,3
