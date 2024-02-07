@@ -1,0 +1,111 @@
+---
+title: "Homework_04"
+author: "Molly Ratliff"
+date: "2024-02-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**1) Suppose x = 1.1, a = 2.2, and b = 3.3. Assign each expression to the value of the variable z and print the value stored in z.**
+```{r}
+x <- 1.1
+a <- 2.2
+b <- 3.3
+```
+**a.**
+```{r}
+z <- ((x)^a)^b
+print(z)
+```
+**b.**
+```{r}
+z <- (x^a)^b
+print(z)
+```
+**c.**
+```{r}
+z <- 3*((x)^3) + 2*((x)^2) + 1
+print(z)
+```
+
+**2) Using the rep and seq functions, create the following vectors:**
+
+**a. (1,2,3,4,5,6,7,8,7,6,5,4,3,2,1)**
+```{r}
+vec_a <- c(seq(from=1, to=8), seq(from=7, to=1))
+print(vec_a)
+```
+
+**b. (1,2,2,3,3,3,4,4,4,4,5,5,5,5,5)**
+```{r}
+vec_b <- c(1,2,3,4,5)
+rep(x=vec_b, times=vec_b)
+```
+
+**c. (5,4,4,3,3,3,2,2,2,2,1,1,1,1,1)**
+```{r}
+vec_c <- c(5,4,3,2,1)
+rep(x=vec_c, times=vec_b)
+```
+
+**3) Create a vector of two random uniform numbers. In a spatial map, these can be interpreted as x and y coordinates that give the location of an individual (such as a marked forest tree in a plot that has been mapped). Using one of R’s inverse trigonometry functions (asin(), acos(), or atan()), convert these numbers into polar coordinates.**
+```{r}
+coords <- runif(2)
+x <- coords[1]
+y <- coords[2]
+radius <- sqrt(x^2 + y^2)
+theta <- atan(y/x)
+pol_coords <- c(radius, theta)
+print(pol_coords)
+```
+
+**4) Create a vector queue <- c("sheep", "fox", "owl", "ant") where queue represents the animals that are lined up to enter Noah’s Ark, with the sheep at the front of the line. Using R expressions, update queue as: **
+```{r}
+queue <- c("sheep", "fox", "owl", "ant")
+print(queue)
+```
+**a. the serpent arrives and gets in line**
+```{r}
+queue <- c(queue, "serpent")
+print(queue)
+```
+**b. the sheep enters the ark**
+```{r}
+queue <- queue[2:5]
+print(queue)
+```
+**c. the donkey arrives and talks his way to the front of the line**
+```{r}
+queue <- c("doneky", queue)
+print(queue)
+```
+**d. the serpent gets impatient and leaves**
+```{r}
+queue <- queue[1:4]
+print(queue)
+```
+**e. the owl gets bored and leaves**
+```{r}
+queue <- queue[-3]
+print(queue)
+```
+**f. the aphid arrives and the ant invites him to cut in line**
+```{r}
+queue <- append(queue, "aphid", 2)
+print(queue)
+```
+
+**g. Finally, determine the position of the aphid in the line**
+```{r}
+which(queue == "aphid")
+```
+
+**5) Use R to create a vector of all of the integers from 1 to 100 that are not divisible by 2, 3, or 7.**
+```{r}
+vec <- 1:100
+vec <- vec[!(vec %% 2 == 0 | vec %% 3 == 0 | vec %% 7 == 0)]
+print(vec)
+```
