@@ -1,0 +1,75 @@
+---
+title: "Homework_07"
+author: "Molly Ratliff"
+date: "2024-02-28"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Think about an ongoing study in your lab (or a paper you have read in a different class), and decide on a pattern that you might expect in your experiment if a specific hypothesis were true**
+
+I am looking at a data set that compares soil organic carbon (SOC) values between topographically low points and topographically high points in a field. The field site that this data was collected from was an agricultural corn silage field with heavy clay soils. The topography of the field naturally created distinct "low" and "high" spots. The low spots tended to have standing water following rain events, while the high spots were more dry following rain. 
+
+**Assume that the data in each of your treatment groups follow a normal distribution. Specify the sample sizes, means, and variances for each group that would be reasonable if your hypothesis were true. You may need to consult some previous literature and/or an expert in the field to come up with these numbers.**
+
+It is hypothesized that topographically low areas of agricultural fields have higher SOC. This is primarily due to build-up of organic matter in low points over time. Additionally, breakdown of organic matter is generally slower in environments with higher moisture. Since standing water is often present at low points, there is likely higher SOC.
+
+Topographically low points (LowTopo)
+Topographically high points (HighTopo)
+
+The sample size used in the study was 9 plots for LowTopo and 9 plots for HighTopo. A larger sample size would be ideal, but logistical challenges did not allow for a greater size. I will manipulate sample size in subsequent questions to explore how size impacts significance of SOC differences. 
+
+The mean in SOC for LowTopo was 3.396 and the mean SOC for HighTopo was 2.685. I am interested to see how the p-value changes as a make the difference between these values greater. The variance for both groups is around 0.75.
+
+
+**Using the methods we have covered in class, write code to create a random data set that has these attributes. Organize these data into a data frame with the appropriate structure.**
+```{r}
+library(ggplot2)
+
+# size, mean, and variance of data
+nName <- c("LowTopo","HighTopo") 
+nSize <- c(9,9)
+nMean <- c(3.397,2.685) 
+nSD <- c(0.75,0.75)
+
+# data frame setup
+ID <- 1:(sum(nSize))
+SOC <- c(rnorm(n=nSize[1],mean=nMean[1],sd=nSD[1]),
+            rnorm(n=nSize[2],mean=nMean[2],sd=nSD[2]))
+TGroup <- rep(nName,nSize)
+ANOdata <- data.frame(ID,TGroup,SOC)
+str(ANOdata)
+print(ANOdata)
+```
+
+**Now write code to analyze the data (probably as an ANOVA or regression analysis, but possibly as a logistic regression or contingency table analysis. Write code to generate a useful graph of the data.**
+```{r}
+# model
+ANOmodel <- aov(SOC~TGroup,data=ANOdata)
+print(summary(ANOmodel))
+z <- summary(ANOmodel)
+str(z)
+aggregate(SOC~TGroup,data=ANOdata,FUN=mean)
+
+# plot
+ANOPlot <- ggplot(data=ANOdata) +
+  aes(x=TGroup,y=SOC,fill=TGroup) +
+  geom_boxplot()
+print(ANOPlot)
+```
+
+**Try running your analysis multiple times to get a feeling for how variable the results are with the same parameters, but different sets of random numbers.**
+
+With these parameters, mean SOC is generally always greater in the LowTopo plots. However, the width of the box (first and third quartiles) and min/max values greatly vary.
+
+**Now begin adjusting the means of the different groups. Given the sample sizes you have chosen, how small can the differences between the groups be (the “effect size”) for you to still detect a significant pattern (p < 0.05)?**
+
+Since the values for SOC are generally small values between 0-5, simply doubling the difference in means can have a really significant impact. The smallest difference that I found to still be significant was one. Any smaller produced a p-value that was not significant.
+
+**Alternatively, for the effect sizes you originally hypothesized, what is the minimum sample size you would need in order to detect a statistically significant effect? Again, run the model a few times with the same parameter set to get a feeling for the effect of random variation in the data.**
+
+The small sample size that I have right now (n=18) is pretty much the lowest sample size to still produce significant results. When I chose a lower sample size, the results were still significant (p <0.05) a *few* times, but the results seemed a lot more inconsistent. However, if the means were more different, a smaller sample size would still produce significant results. 
+

@@ -70,5 +70,8 @@ pSpecial + statSpecial
 #(0.06914551) (0.04889326)
 
 new <- rnorm(n=300,mean=1.78,sd=1.13)
-
+new <- data.frame(1:300,new)
+p1 <- ggplot(data=new, aes(x=new, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2) 
+print(p1)
 
