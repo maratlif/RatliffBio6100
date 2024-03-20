@@ -7,7 +7,7 @@ library(ggplot2)
 # size, mean, and variance of data
 nName <- c("LowTopo","HighTopo") 
 nSize <- c(9,9)
-nMean <- c(3.397,2.685) 
+nMean <- c(3,2) 
 nSD <- c(0.75,0.75)
 
 # data frame setup
