@@ -1,0 +1,25 @@
+---
+title: "Homework_09"
+author: "Molly Ratliff"
+date: "2024-03-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Organizing Code With Structured Programming
+```{r message=FALSE}
+source("Homework_09_Functions.R")
+library(ggplot2)
+library(tidyverse)
+
+x <- genSOC()
+statsSOC(x)
+plotSOC(x)
+ttestSOC(x)
+```
+

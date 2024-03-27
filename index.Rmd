@@ -25,3 +25,5 @@ knitr::opts_chunk$set(echo = TRUE)
 * #### [Homework 7](Homework_07.html)
 
 * #### [Homework 8](Homework_08.html)
+
+* #### [Homework 9](Homework_09.html)
