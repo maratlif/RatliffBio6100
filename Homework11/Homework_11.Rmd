@@ -1,0 +1,93 @@
+---
+title: "Homework_11"
+author: "Molly Ratliff"
+date: "2024-04-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+```{r include=FALSE}
+#### Libraries ----
+library(log4r)
+library(TeachingDemos)
+library(tidyverse)
+library(pracma)
+library(ggmosaic)
+
+#### Source function files ----
+source("barracudar/DataTableTemplate.R")
+source("barracudar/AddFolder.R")
+source("barracudar/BuildFunction.R")
+source("barracudar/MetaDataTemplate.R")
+source("barracudar/CreatePaddedLabel.R")
+source("barracudar/InitiateSeed.R")
+source("barracudar/SetUpLog.R")
+source("barracudar/SourceBatch.R")
+source("barracudar/QBox.R")
+source("barracudar/QCon1.R")
+source("barracudar/QCon2.R")
+source("barracudar/QHist.R")
+source("barracudar/QLogis.R")
+source("barracudar/QScat.R")
+source("barracudar/QBub.R")
+source("barracudar/QContour.R")
+```
+
+
+```{r message=FALSE}
+setwd("/Users/Molly/Desktop/UVM/Courses/Spring2024/Bio6100/RatliffBio6100/Homework11")
+
+filelist <- list.files("/Users/Molly/Desktop/UVM/Courses/Spring2024/Bio6100/RatliffBio6100/Homework11/OriginalData")
+
+filenames <- c()
+
+for (i in 1:8){
+  setwd(paste0("/Users/Molly/Desktop/UVM/Courses/Spring2024/Bio6100/RatliffBio6100/Homework11/OriginalData","/",filelist[i]))
+  filenames[i] <- list.files(pattern="countdata")
+}
+
+myVars <- c("startDate", "scientificName")
+pattern <- "\\d{4}"
+```
+
+```{r}
+# Function to import bird, combine all data into one data frame, clean data, and summarize data
+################################################################################################
+#function: birdStats
+#input:filenames (list of files to include), myVars (variables to keep from the big data set, and pattern (what regular expression to look for to make a new year column)
+#output: stats includes the file names, year, abundance of birds, and species richness.  
+#------------------------------------------------------------------------------------------------
+birdStats <- function(filenames, myVars, pattern) {
+  all_data <- list()
+  
+  for (i in seq_along(filenames)) {
+    setwd(paste0("/Users/Molly/Desktop/UVM/Courses/Spring2024/Bio6100/RatliffBio6100/Homework11/OriginalData/", filelist[i]))
+    data_i <- read.csv(filenames[i])
+    all_data[[i]] <- data_i
+  }
+  
+  data <- do.call(rbind, all_data)
+  
+  dataBird <- data[, myVars]
+  
+  dataBird$year <- ifelse(grepl(pattern, dataBird$startDate), 
+                          str_extract(dataBird$startDate, pattern), NA)
+  
+  summaryStats <- dataBird %>%
+    group_by(year) %>%
+    summarise(abundance = n(), species = n_distinct(scientificName)) %>%
+    data.frame()
+  
+  stats <- cbind(filenames, summaryStats)
+  
+  return(stats)
+}
+##################################################################################################
+
+stats <- birdStats(filenames, myVars, pattern)
+print(stats)
+```
