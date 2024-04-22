@@ -53,8 +53,8 @@ n1 <- ggplot(n2o.avg.m) +
   geom_errorbar(aes(ymin=n2o.avg.m-n2o.se.m,ymax=n2o.avg.m+n2o.se.m),width=0.2,color="black") +
   scale_x_date(date_breaks = "1 month", date_labels = "%b") +
   geom_vline(aes(xintercept = as.numeric(as.Date("2023-10-05"))),linetype=2) +
-  labs(y=expression(paste(N[2],"O flux (nmol ",N[2],"O-N ",m^-2," ",sec^-1,")"))) +
-  theme(axis.title.y = element_text(size=6)) +
+  labs(y=expression(paste(N[2],"O Flux"))) +
+  theme(axis.title.y = element_text(size=8)) +
   theme(axis.title.x=element_blank(),axis.text.x=element_blank()) + 
   scale_color_manual(values=my_cols) +
   theme(legend.position="none")
@@ -71,8 +71,8 @@ m1 <- ggplot(ch4.avg.m) +
   geom_errorbar(aes(ymin=ch4.avg.m-ch4.se.m,ymax=ch4.avg.m+ch4.se.m),width=0.2,color="black") +
   scale_x_date(date_breaks = "1 month", date_labels = "%b") +
   geom_vline(aes(xintercept = as.numeric(as.Date("2023-10-05"))),linetype=2) +
-  labs(y=expression(paste(CH[4], " flux (nmol ",CH[4],"-C ",m^-2," ",sec^-1,")"))) +
-  theme(axis.title.y = element_text(size=6)) +
+  labs(y=expression(paste(CH[4], " Flux"))) +
+  theme(axis.title.y = element_text(size=8)) +
   theme(axis.title.x=element_blank(),axis.text.x=element_blank()) +
   theme(legend.position="none") + scale_color_manual(values=my_cols)
 
@@ -88,8 +88,8 @@ c1 <- ggplot(co2.avg.m) +
   geom_errorbar(aes(ymin=co2.avg.m-co2.se.m,ymax=co2.avg.m+co2.se.m),width=0.2,color="black") +
   scale_x_date(date_breaks = "1 month", date_labels = "%b") +
   geom_vline(aes(xintercept = as.numeric(as.Date("2023-10-05"))),linetype=2) +
-  labs(y=expression(paste(CO[2]," flux (umol ",CO[2],"-C ",m^-2," ",sec^-1,")"))) +
-  theme(axis.title.y = element_text(size=6)) +
+  labs(y=expression(paste(CO[2]," Flux"))) +
+  theme(axis.title.y = element_text(size=8)) +
   theme(axis.title.x=element_blank(),axis.text.x=element_blank()) +
   scale_color_manual(values=my_cols) +
   labs(color = "Topography", shape = "Topography", linetype = "Topography")
@@ -107,7 +107,7 @@ sm1 <- ggplot(sm.avg.m) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b") +
   geom_vline(aes(xintercept = as.numeric(as.Date("2023-10-05"))),linetype=2) +
   labs(y=expression(paste("VWC ","(",m^3," ",m^-3,")"))) +
-  theme(axis.title.y = element_text(size=6)) +
+  theme(axis.title.y = element_text(size=8)) +
   theme(axis.title.x=element_blank(),axis.text.x=element_blank()) +
   theme(legend.position="none") + scale_color_manual(values=my_cols)
 
@@ -123,8 +123,8 @@ temp1 <- ggplot(temp.avg.m) +
   geom_errorbar(aes(ymin=temp.avg.m-temp.se.m,ymax=temp.avg.m+temp.se.m),width=0.2,color="black") +
   scale_x_date(date_breaks = "1 month", date_labels = "%b") +
   geom_vline(aes(xintercept = as.numeric(as.Date("2023-10-05"))),linetype=2) +
-  labs(y=expression(paste("Temperature (C)"))) +
-  theme(axis.title.y = element_text(size=6)) +
+  labs(y=expression(paste("Temp (C)"))) +
+  theme(axis.title.y = element_text(size=8)) +
   theme(legend.position="none") + scale_color_manual(values=my_cols)
 
 # COWPLOT ----------------------------------------------------------------
