@@ -1,0 +1,134 @@
+---
+title: "Homework_12"
+author: "Molly Ratliff"
+date: "2024-04-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**This is a stacked graph showing greenhouse gas pulses and corresponding soil conditions (temperature and soil moisture) from an agricultural field site from July - Feb. Data is represented as averages across low and high microtopographical areas in a corn silage field**
+
+```{r results='hide', message=FALSE}
+# Libraries
+library(plyr)
+library(cowplot)
+library(tidyverse)
+library(RColorBrewer)
+library(colorspace)
+```
+
+
+```{r results='hide', message=FALSE}
+# Data wrangling and cleaning
+alldat <-read_csv("Compiled_DSWR_Fluxdata.csv")
+
+# Subset super high and super low temp values (likely temp probe errors). And one very high methane flux ~400
+alldat <- subset(alldat, alldat$ts_1_mean > -2500)
+alldat <- subset(alldat, alldat$ts_1_mean < 200)
+alldat <- subset(alldat, alldat$fch4_dry_lin < 150)
+
+# Subset data into a different variable to display only post-manure graphs (easier to see scale, etc)
+alldatPM <- subset(alldat, alldat$Date > "2023-09-20")
+
+# Set color palette for figures
+demoplot(brewer.pal(3,"Set1"),"bar")
+my_cols <- c("dimgray","dodgerblue")
+```
+
+
+```{r}
+# Graph code
+# NITROUS OXIDE -----------------------------------------------
+n2o.avg.m <- ddply(alldat,c("Date","topo1"),function(df)
+  return(c(n2o.avg.m=mean(df$fn2o_lin,na.rm = TRUE),
+           n2o.se.m=sd(df$fn2o_lin,na.rm = TRUE)/sqrt(nrow(df)))))
+n1 <- ggplot(n2o.avg.m) +
+  aes(x=Date,y=n2o.avg.m,color=topo1) + 
+  geom_point(aes(shape=topo1),size=3) +
+  geom_line() +
+  theme_bw() +
+  geom_errorbar(aes(ymin=n2o.avg.m-n2o.se.m,ymax=n2o.avg.m+n2o.se.m),width=0.2,color="black") +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  geom_vline(aes(xintercept = as.numeric(as.Date("2023-10-05"))),linetype=2) +
+  labs(y=expression(paste(N[2],"O flux (nmol ",N[2],"O-N ",m^-2," ",sec^-1,")"))) +
+  theme(axis.title.y = element_text(size=6)) +
+  theme(axis.title.x=element_blank(),axis.text.x=element_blank()) + 
+  scale_color_manual(values=my_cols) +
+  theme(legend.position="none")
+
+# METHANE -----------------------------------------------------------
+ch4.avg.m <- ddply(alldat,c("Date","topo1"),function(df)
+  return(c(ch4.avg.m=mean(df$fch4_dry_lin,na.rm = TRUE), 
+           ch4.se.m=sd(df$fch4_dry_lin,na.rm = TRUE)/sqrt(nrow(df)))))
+m1 <- ggplot(ch4.avg.m) +
+  aes(x=Date,y=ch4.avg.m,color=topo1) + 
+  geom_point(aes(shape=topo1),size=3) +
+  geom_line() +
+  theme_bw() +
+  geom_errorbar(aes(ymin=ch4.avg.m-ch4.se.m,ymax=ch4.avg.m+ch4.se.m),width=0.2,color="black") +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  geom_vline(aes(xintercept = as.numeric(as.Date("2023-10-05"))),linetype=2) +
+  labs(y=expression(paste(CH[4], " flux (nmol ",CH[4],"-C ",m^-2," ",sec^-1,")"))) +
+  theme(axis.title.y = element_text(size=6)) +
+  theme(axis.title.x=element_blank(),axis.text.x=element_blank()) +
+  theme(legend.position="none") + scale_color_manual(values=my_cols)
+
+# CARBON DIOXIDE --------------------------------------------------------
+co2.avg.m <- ddply(alldat,c("Date","topo1"),function(df)
+  return(c(co2.avg.m=mean(df$fco2_dry_lin,na.rm = TRUE),
+           co2.se.m=sd(df$fco2_dry_lin,na.rm = TRUE)/sqrt(nrow(df)))))
+c1 <- ggplot(co2.avg.m) +
+  aes(x=Date,y=co2.avg.m,color=topo1) + 
+  geom_point(aes(shape=topo1),size=3) +
+  geom_line() +
+  theme_bw() +
+  geom_errorbar(aes(ymin=co2.avg.m-co2.se.m,ymax=co2.avg.m+co2.se.m),width=0.2,color="black") +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  geom_vline(aes(xintercept = as.numeric(as.Date("2023-10-05"))),linetype=2) +
+  labs(y=expression(paste(CO[2]," flux (umol ",CO[2],"-C ",m^-2," ",sec^-1,")"))) +
+  theme(axis.title.y = element_text(size=6)) +
+  theme(axis.title.x=element_blank(),axis.text.x=element_blank()) +
+  scale_color_manual(values=my_cols) +
+  labs(color = "Topography", shape = "Topography", linetype = "Topography")
+
+# SOIL MOISTURE ----------------------------------------------------------------------
+sm.avg.m <- ddply(alldat,c("Date","topo1"),function(df)
+  return(c(sm.avg.m=mean(df$swc_2_mean,na.rm = TRUE),
+           sm.se.m=sd(df$swc_2_mean,na.rm = TRUE)/sqrt(nrow(df)))))
+sm1 <- ggplot(sm.avg.m) +
+  aes(x=Date,y=sm.avg.m,color=topo1) + 
+  geom_point(aes(shape=topo1),size=3) +
+  geom_line() +
+  theme_bw() +
+  geom_errorbar(aes(ymin=sm.avg.m-sm.se.m,ymax=sm.avg.m+sm.se.m),width=0.2,color="black") +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  geom_vline(aes(xintercept = as.numeric(as.Date("2023-10-05"))),linetype=2) +
+  labs(y=expression(paste("VWC ","(",m^3," ",m^-3,")"))) +
+  theme(axis.title.y = element_text(size=6)) +
+  theme(axis.title.x=element_blank(),axis.text.x=element_blank()) +
+  theme(legend.position="none") + scale_color_manual(values=my_cols)
+
+# SOIL TEMPERATURE -------------------------------------------------------------------
+temp.avg.m <- ddply(alldat,c("Date","topo1"),function(df)
+  return(c(temp.avg.m=mean(df$ts_1_mean,na.rm = TRUE),
+           temp.se.m=sd(df$ts_1_mean,na.rm = TRUE)/sqrt(nrow(df)))))
+temp1 <- ggplot(temp.avg.m) +
+  aes(x=Date,y=temp.avg.m,color=topo1) + 
+  geom_point(aes(shape=topo1),size=3) +
+  geom_line() +
+  theme_bw() +
+  geom_errorbar(aes(ymin=temp.avg.m-temp.se.m,ymax=temp.avg.m+temp.se.m),width=0.2,color="black") +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  geom_vline(aes(xintercept = as.numeric(as.Date("2023-10-05"))),linetype=2) +
+  labs(y=expression(paste("Temperature (C)"))) +
+  theme(axis.title.y = element_text(size=6)) +
+  theme(legend.position="none") + scale_color_manual(values=my_cols)
+
+# COWPLOT ----------------------------------------------------------------
+topoGHG <- plot_grid(n1, m1, c1, sm1, temp1, ncol = 1, nrow=5, align = 'v') 
+print(topoGHG)
+```
+
